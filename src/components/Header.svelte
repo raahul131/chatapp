@@ -2,7 +2,8 @@
 
 <main>
 	<div class="justify-center items-center flex flex-col h-screen">
-		<div class="font-extrabold tracking-widest text-2xl">Chit-Chat</div>
+		<div class="font-extrabold tracking-widest text-2xl">Chatgram</div>
+
 		<button class="mt-10">
 			<a
 				href="/signin"

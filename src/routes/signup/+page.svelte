@@ -1,8 +1,8 @@
-<script>
-	import { enhance } from '$app/forms';
-	// To show & hide password
+<script lang="ts">
+	import { register } from '../../grpcRequests/SignUp';
+	// // To show & hide password
 	let show_password = false;
-	$: type1 = show_password ? 'text' : 'password';
+	$: type = show_password ? 'text' : 'password';
 
 	export let form;
 	// $: console.log(form);
@@ -10,25 +10,34 @@
 	$: console.log(details.email);
 
 	let details = {
-		name: '',
 		username: '',
 		email: '',
+		phoneNumber: '',
 		password: '',
 		confirmPassword: ''
 	};
 
-	const handleSubmit = () => {
-		console.log('Submitting');
-	};
+	let { username, email, password, phoneNumber } = details;
 
-
+	function handleRegistration(e) {
+		e?.preventDefault();
+		let response = register(details.username, details.email, details.password, details.phoneNumber);
+		response
+			.then((res) => {
+				console.log(res);
+				// window.location.href = '/signin';
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
 </script>
 
 <main>
 	<div>
 		<div class="h-screen flex flex-col items-center justify-center">
 			<div class="text-center font-bold text-3xl">Create an account</div>
-			<form method="POST" use:enhance >
+			<form method="POST">
 				{#if form?.error}
 					<div class="bg-red-100 border border-red-400 text-red-500 rounded-lg relative">
 						<strong class="font-bold">Error</strong>
@@ -37,16 +46,6 @@
 				{/if}
 
 				<div class="items-center justify-center flex flex-col mt-4 mx-2">
-					<input
-						type="text"
-						placeholder="Enter your name"
-						class="border-b-2 border-black p-1 w-full outline-none mt-3 px-2"
-						required
-						name="name"
-						id="name"
-						bind:value={details.name}
-					/>
-
 					<input
 						type="text"
 						placeholder="Username"
@@ -67,17 +66,41 @@
 						bind:value={details.email}
 					/>
 
+					<input
+						type="number"
+						placeholder="Phone Number"
+						class="border-b-2 border-black p-1 w-full outline-none mt-3 px-2"
+						required
+						name="phoneNumber"
+						id="phoneNumber"
+						bind:value={details.phoneNumber}
+					/>
+
 					<div class="flex w-full mt-2">
-						<input
-							{type1}
-							placeholder="Password"
-							class="border-b-2 border-black p-1 w-full outline-none pl-2"
-							required
-							name="password"
-							id="password"
-							minlength="8"
-							bind:value={details.password}
-						/>
+						{#if show_password}
+							<input
+								type="text"
+								placeholder="Password"
+								class="border-b-2 border-black p-1 w-full outline-none pl-2"
+								required
+								name="password"
+								id="password"
+								minlength="8"
+								bind:value={details.password}
+							/>
+						{:else}
+							<input
+								type="password"
+								placeholder="Password"
+								class="border-b-2 border-black p-1 w-full outline-none pl-2"
+								required
+								name="password"
+								id="password"
+								minlength="8"
+								bind:value={details.password}
+							/>
+						{/if}
+
 						<button
 							class="bg-red-500 rounded-lg text-white p-1 shadow-md shadow-red-500 hover:bg-red-600"
 							on:click={() => (show_password = !show_password)}
@@ -96,6 +119,7 @@
 					<button
 						class="bg-red-500 hover:bg-red-600 text-white font-bold p-2 rounded-lg m-10 w-full text-center cursor-pointer"
 						type="submit"
+						on:click={handleRegistration}
 					>
 						SignUp
 					</button>

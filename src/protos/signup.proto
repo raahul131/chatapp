@@ -1,0 +1,21 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.example";
+option java_outer_classname = "Chatapp";
+option objc_class_prefix = "HLW";
+package com.example;
+service UserService {
+  rpc register (UserRequest) returns (UserReply) {}
+}
+message UserRequest {
+  string userName = 1;
+  string email= 2;
+  string  password=3;
+  int64 phoneNumber=5;
+}
+message UserReply {
+  string userName = 1;
+  string email= 2;
+  string role=3;
+  int64 phoneNumber=4;
+}

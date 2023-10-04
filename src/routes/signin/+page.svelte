@@ -1,21 +1,32 @@
 <script>
+	import { login } from '../../grpcRequests/SignIn';
+
 	let show_password = false;
 	$: type1 = show_password ? 'text' : 'password';
 
 	export let form;
 
-	$: console.log(logInDetails.username);
-
+	// $: console.log(logInDetails.username);
 	let logInDetails = {
 		username: '',
 		password: ''
 	};
 
+	let { username, password } = logInDetails;
 
-
-	const handleSubmit = () => {
-		console.log('Submitting');
-	};
+	function handleLogIn(e) {
+		e?.preventDefault();
+		let response = login(logInDetails.username, logInDetails.password);
+		response
+			.then((res) => {
+				console.log('sign inside here');
+				console.log(res);
+				window.location.href = '/chatpage';
+			})
+			.catch((err) => {
+				console.log('Error', err);
+			});
+	}
 </script>
 
 <main>
@@ -23,7 +34,7 @@
 		<div class="h-[400px] w-[300px] mt-16">
 			<div class="text-center font-semibold text-lg underline">Log-In</div>
 
-			<form action="/login" method="GET">
+			<form method="POST">
 				{#if form?.error}
 					<div>{form.error}</div>
 				{/if}
@@ -57,14 +68,10 @@
 					<button
 						class="bg-red-500 hover:bg-red-600 text-white font-bold p-2 rounded-lg m-10 w-full text-center cursor-pointer"
 						type="submit"
+						on:click={handleLogIn}
 					>
 						LogIn
 					</button>
-					<div>
-						Don't have an account, <span class="underline text-red-500 cursor-pointer">
-							<a href="/signup">SignUp</a>
-						</span>
-					</div>
 				</div>
 			</form>
 		</div>

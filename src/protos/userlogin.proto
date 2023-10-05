@@ -1,9 +1,7 @@
 syntax = "proto3";
+
 option java_multiple_files = true;
 option java_package = "com.example";
-option java_outer_classname = "Chatapp";
-option objc_class_prefix = "HLW";
-
 package com.example;
 
 service LoginService {
@@ -13,9 +11,12 @@ service LoginService {
 message LoginRequest {
   string userName = 1;
   string  password=2;
+
 }
 
 message LoginResponse {
+
   string access_token = 1;
   string userName=2;
+
 }

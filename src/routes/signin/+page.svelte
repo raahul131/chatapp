@@ -1,5 +1,9 @@
 <script>
 	import { login } from '../../grpcRequests/SignIn';
+	import { userDetails } from '../../store/tokenStore';
+	import { goto } from '$app/navigation';
+
+	// import { setDetails } from '../../store/tokenStore';
 
 	let show_password = false;
 	$: type1 = show_password ? 'text' : 'password';
@@ -14,14 +18,34 @@
 
 	let { username, password } = logInDetails;
 
+	let details;
+
+	userDetails.subscribe((value) => {
+		details = value;
+	});
+
 	function handleLogIn(e) {
 		e?.preventDefault();
 		let response = login(logInDetails.username, logInDetails.password);
 		response
 			.then((res) => {
-				console.log('sign inside here');
-				console.log(res);
-				window.location.href = '/chatpage';
+				// sessionStorage.setItem(
+				// 	'details',
+				// 	JSON.stringify({
+				// 		userName: res.userName,
+				// 		token: res.accessToken
+				// 	})
+				// );
+				// setDetails(res.userName, res.accessToken);
+				userDetails.update(() => ({
+					userName: res?.userName,
+					accessToken: res?.accessToken
+				}));
+
+				// console.log('sign inside here');
+				console.log('response', res);
+				goto('/chatpage');
+				console.log('values', details);
 			})
 			.catch((err) => {
 				console.log('Error', err);
@@ -51,7 +75,7 @@
 
 					<div class="flex w-full mt-6">
 						<input
-							{type1}
+							type="password"
 							placeholder="Password"
 							class="border-b-2 border-black p-1 w-full outline-none pl-2"
 							required
@@ -59,11 +83,11 @@
 							id="password"
 							bind:value={logInDetails.password}
 						/>
-						<button
+						<!-- <button
 							class="bg-red-500 hover:bg-red-600 rounded-lg text-white p-1 shadow-md shadow-red-500"
 							on:click={() => (show_password = !show_password)}
 							>{show_password ? 'Hide' : 'Show'}</button
-						>
+						> -->
 					</div>
 					<button
 						class="bg-red-500 hover:bg-red-600 text-white font-bold p-2 rounded-lg m-10 w-full text-center cursor-pointer"

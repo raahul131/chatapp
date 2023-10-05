@@ -2,7 +2,7 @@
 
 <main>
 	<div class="justify-center items-center flex flex-col h-screen">
-		<div class="font-extrabold tracking-widest text-2xl">Chatgram</div>
+		<div class="font-extrabold tracking-widest text-2xl">Hamro Chat</div>
 
 		<button class="mt-10">
 			<a

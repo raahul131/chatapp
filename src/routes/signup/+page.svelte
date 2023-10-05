@@ -1,13 +1,8 @@
 <script lang="ts">
 	import { register } from '../../grpcRequests/SignUp';
-	// // To show & hide password
+
 	let show_password = false;
-	$: type = show_password ? 'text' : 'password';
-
 	export let form;
-	// $: console.log(form);
-
-	$: console.log(details.email);
 
 	let details = {
 		username: '',
@@ -25,12 +20,20 @@
 		response
 			.then((res) => {
 				console.log(res);
-				// window.location.href = '/signin';
+				window.location.href = '/signin';
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 	}
+
+	function validatePassword() {
+		if (password.length < 8 && !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/.test(password)) {
+			console.log('error');
+		}
+	}
+
+
 </script>
 
 <main>
@@ -87,6 +90,7 @@
 								id="password"
 								minlength="8"
 								bind:value={details.password}
+
 							/>
 						{:else}
 							<input

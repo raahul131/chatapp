@@ -14,7 +14,7 @@
 		details = value;
 	});
 
-	var source = new EventSource('http://192.168.28.35:8080/live');
+	var source = new EventSource('http://192.168.86.102:8080/live');
 	source.onmessage = function (event) {
 		var eventData = JSON.parse(event.data);
 
@@ -69,20 +69,23 @@
 				</div>
 
 				<!-- Messages Area -->
-				<div
-					class="h-[82vh] justify-start items-start flex-col p-5 w-full flex-wrap overflow-y-scroll"
-				>
+				<div class="h-[82vh] flex-col p-5 overflow-y-scroll">
 					{#if messages.length === 0}
 						<div class="text-center text-2xl">No messages</div>
 					{:else}
 						{#each messages as message}
 							<div class="mt-[12px]">
-								<div class="bg-[#781f19] text-white rounded-md p-1">
-									<p class=" whitespace-pre-wrap break-words break-all items-center">
+								<!-- <div class="bg-[#781f19] text-white rounded-md p-2">
+									<p class="whitespace-pre-wrap break-words break-all items-center">
 										{message.message}
 									</p>
-								</div>
-								<p class="text-xs font-light">
+								</div> -->
+
+								<span
+									class="font-semibold bg-red-800 text-white py-1 px-1 rounded whitespace-pre-wrap items-center"
+									>{message.message}</span
+								>
+								<p class="text-xs font-light mt-1">
 									{message.userName}
 								</p>
 							</div>

@@ -6,7 +6,7 @@ import { LoginServiceClient } from '../generated/userlogin.client';
 import { LoginRequest } from '../generated/userlogin';
 
 const config = new GrpcWebFetchTransport({
-	baseUrl: 'http://192.168.28.35:8082'
+	baseUrl: 'http://192.168.86.102:8082'
 });
 
 const SignUpServiceClient = new UserServiceClient(config);

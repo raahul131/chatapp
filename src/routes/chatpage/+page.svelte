@@ -36,6 +36,12 @@
 				console.log(err);
 			});
 	}
+
+	function handleEnterPress(e) {
+		if (e.keyCode === 13) {
+			handleMessage();
+		}
+	}
 </script>
 
 <main>
@@ -95,6 +101,7 @@
 							placeholder="Enter your messages"
 							class="w-full p-2 outline-none"
 							bind:value={userInput}
+							on:keydown={handleEnterPress}
 						/>
 						<button
 							class="bg-red-500 hover:bg-red-600 text-white font-bold px-2 rounded-md my-1 text-center text-lg"
